@@ -1,13 +1,12 @@
 const express = require("express");
+const entryRouter = require("./routes/entryRoutes");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-app.get("/api/entries", (req, res) => {
-  res.status(200).json({ message: "Get entries" });
-});
+app.get("/api/entries", entryRouter);
 
 app.listen(
   PORT,
