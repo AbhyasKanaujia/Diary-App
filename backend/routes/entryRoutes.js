@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  res.status(200).json({ message: "Add entry" });
+  res.status(201).json({ message: "Add entry" });
 });
 
 router.put("/:id", (req, res) => {
