@@ -26,7 +26,18 @@ const createEntry = asyncHandler(async (req, res) => {
 // @route   PUT /api/entries/:id
 // @access  Private
 const updateEntry = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update entry id ${req.params.id}` });
+  const entry = await Entry.findById(req.params.id);
+
+  if (!entry) {
+    res.status(400);
+    throw new Error("Entry not found");
+  }
+
+  const udpatedEntry = await Entry.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json(udpatedEntry);
 });
 
 // @desc    Delete an entry
