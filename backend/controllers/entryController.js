@@ -44,7 +44,17 @@ const updateEntry = asyncHandler(async (req, res) => {
 // @route   DELETE /api/entries/:id
 // @access  Private
 const deleteEntry = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete entry id ${req.params.id}` });
+  const entry = await Entry.findById(req.params.id);
+
+  if (!entry) {
+    res.status(404);
+
+    throw new Error("Entry not found");
+  }
+
+  await entry.remove();
+
+  res.status(200).json({ id: req.params.id });
 });
 
 module.exports = {
