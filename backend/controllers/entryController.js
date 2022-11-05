@@ -1,10 +1,13 @@
 const asyncHandler = require("express-async-handler");
+const Entry = require("../models/entryModel.js");
 
 // @desc    Get all entries
 // @route   GET /api/entries
 // @access  Private
 const getEntries = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "get entry" });
+  const entries = await Entry.find();
+
+  res.status(200).json(entries);
 });
 
 // @desc    Create an entry
