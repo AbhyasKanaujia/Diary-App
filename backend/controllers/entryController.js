@@ -14,7 +14,12 @@ const getEntries = asyncHandler(async (req, res) => {
 // @route   POST /api/entries
 // @access  Private
 const createEntry = asyncHandler(async (req, res) => {
-  res.status(201).json({ message: "Add entry" });
+  const entry = await Entry.create({
+    title: req.body.title,
+    content: req.body.content,
+  });
+
+  res.status(201).json(entry);
 });
 
 // @desc    Update an entry
