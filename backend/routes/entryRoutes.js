@@ -6,7 +6,7 @@ const {
   createEntry,
   updateEntry,
   deleteEntry,
-} = require("../controller/entryController.js");
+} = require("../controllers/entryController.js");
 
 router.route("/").get(getEntries).post(createEntry);
 router.route("/:id").put(updateEntry).delete(deleteEntry);
