@@ -1,5 +1,6 @@
 const express = require("express");
-const entryRouter = require("./routes/entryRoutes");
+import { errorHandler } from "./middleware/errorHandler.js";
+const entryRouter = require("./routes/entryRoutes.js");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
@@ -10,6 +11,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/entries", entryRouter);
+
+app.use(errorHandler);
 
 app.listen(
   PORT,
