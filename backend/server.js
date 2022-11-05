@@ -1,5 +1,5 @@
 const express = require("express");
-import { errorHandler } from "./middleware/errorHandler.js";
+const { errorHandler } = require("./middleware/errorHandler.js");
 const entryRouter = require("./routes/entryRoutes.js");
 require("dotenv").config();
 
