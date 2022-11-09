@@ -14,7 +14,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Please add all the fields");
   }
 
-  const userExists = await User.findOne({ email: email });
+  const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(400);
@@ -46,10 +46,32 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Authenticate user
-// @route   POST /api/login
+// @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Login user" });
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400);
+
+    throw new Error("Please provide all fields");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(200);
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+
+    throw new Error("Invalid credentails");
+  }
 });
 
 // @desc    Get user data
