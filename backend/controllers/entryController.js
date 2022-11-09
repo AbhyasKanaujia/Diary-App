@@ -5,7 +5,7 @@ const Entry = require("../models/entryModel.js");
 // @route   GET /api/entries
 // @access  Private
 const getEntries = asyncHandler(async (req, res) => {
-  const entries = await Entry.find();
+  const entries = await Entry.find({ user: req.user.id });
 
   res.status(200).json(entries);
 });
@@ -17,6 +17,7 @@ const createEntry = asyncHandler(async (req, res) => {
   const entry = await Entry.create({
     title: req.body.title,
     content: req.body.content,
+    user: req.user.id,
   });
 
   res.status(201).json(entry);
@@ -31,6 +32,12 @@ const updateEntry = asyncHandler(async (req, res) => {
   if (!entry) {
     res.status(400);
     throw new Error("Entry not found");
+  }
+
+  if (!entry.user.equals(req.user.id)) {
+    res.status(401);
+
+    throw new Error("You are not authorized to access this resource");
   }
 
   const udpatedEntry = await Entry.findByIdAndUpdate(req.params.id, req.body, {
@@ -50,6 +57,12 @@ const deleteEntry = asyncHandler(async (req, res) => {
     res.status(404);
 
     throw new Error("Entry not found");
+  }
+
+  if (!entry.user.equals(req.user.id)) {
+    res.status(401);
+
+    throw new Error("You are not authorized to access this resource");
   }
 
   await entry.remove();
