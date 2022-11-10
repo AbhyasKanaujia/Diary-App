@@ -11,3 +11,10 @@ const initialState = {
   isLoading: false,
   message: "",
 };
+
+export const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {},
+  extraReducers: () => {},
+});
